@@ -1,18 +1,19 @@
 name: Deploy demo
 on:
   push:
-    branches: [main]
+    branches: [test, main]
   workflow_dispatch:
 
 jobs:
-  staging:
+  deploy-test:
+    if: github.ref_name == 'test'
     runs-on: ubuntu-latest
-    environment: staging
+    environment: test
     steps:
-      - run: echo "Deploying to staging at ${{ vars.APP_URL }}"
+      - run: echo "Deploying to test at ${{ vars.APP_URL }}"
 
-  production:
-    needs: staging
+  deploy-production:
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     environment: production
     steps:
