@@ -1,0 +1,19 @@
+name: Deploy demo
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - run: echo "Deploying to staging at ${{ vars.APP_URL }}"
+
+  production:
+    needs: staging
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - run: echo "Deploying to production at ${{ vars.APP_URL }}"
